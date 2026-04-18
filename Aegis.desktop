@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=AEGIS Governance
+Comment=Launch the AEGIS Adaptive Network Governance dashboard
+Exec=sh -c "cd '/mnt/Common/Work/Selective Internet Kill Switch' && python3 launch_aegis.py"
+Terminal=true
+Categories=Network;Security;

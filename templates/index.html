@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aegis | Adaptive Network Governance</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+</head>
+<body>
+    <div class="background-effects">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
+
+    <nav class="page-actions" aria-label="Project information">
+        <button type="button" class="nav-button" onclick="openInfoModal('video')">
+            <i class="ri-video-line"></i> Video
+        </button>
+        <button type="button" class="nav-button" onclick="openInfoModal('learn')">
+            <i class="ri-book-open-line"></i> Learn
+        </button>
+        <button type="button" class="nav-button" onclick="openInfoModal('developers')">
+            <i class="ri-team-line"></i> Developed By
+        </button>
+        <button type="button" class="nav-button" onclick="openInfoModal('guide')">
+            <i class="ri-questionnaire-line"></i> Guide
+        </button>
+        <button type="button" class="nav-button" id="theme-toggle" onclick="toggleTheme()">
+            <i class="ri-sun-line"></i> Light
+        </button>
+        <button type="button" class="nav-button" onclick="lockDashboard()">
+            <i class="ri-lock-line"></i> Lock
+        </button>
+    </nav>
+
+    <div class="container">
+        <header>
+            <div class="brand">
+                <i class="ri-shield-keyhole-line neon-icon"></i>
+                <h1><span class="highlight">Aegis</span> Governance</h1>
+            </div>
+            <p class="subtitle">Adaptive Network Governance System</p>
+        </header>
+
+        <section class="status-bar" id="status-bar">
+            Checking system privileges...
+        </section>
+
+        <section class="app-page active" id="page-home">
+            <div class="module-hero">
+                <h2>Choose an AEGIS module</h2>
+                <p>Adaptive network governance with traffic control, focus policies, tamper protection, risk scoring, and audit reporting.</p>
+            </div>
+            <div class="module-grid">
+                <button type="button" class="module-card" onclick="showPage('control')">
+                    <i class="ri-shield-flash-line"></i>
+                    <strong>Policy Control</strong>
+                    <span>Deploy domain and app blocking rules with live logs.</span>
+                </button>
+                <button type="button" class="module-card" onclick="showPage('governance')">
+                    <i class="ri-government-line"></i>
+                    <strong>Network Governance</strong>
+                    <span>Use focus sessions, profiles, templates, and zero-trust planning.</span>
+                </button>
+                <button type="button" class="module-card" onclick="showPage('intelligence')">
+                    <i class="ri-brain-line"></i>
+                    <strong>Adaptive Intelligence</strong>
+                    <span>Score risk, detect repeated distractions, and trigger incident mode.</span>
+                </button>
+                <button type="button" class="module-card" onclick="showPage('compliance')">
+                    <i class="ri-file-chart-line"></i>
+                    <strong>Compliance Center</strong>
+                    <span>Review analytics, audit logs, reports, snapshots, and exports.</span>
+                </button>
+            </div>
+        </section>
+
+        <section class="app-page" id="page-control">
+        <button type="button" class="module-back" onclick="showPage('home')">
+            <i class="ri-arrow-left-line"></i> Modules
+        </button>
+        <div class="dashboard">
+            <section class="panel control-panel">
+                <h2><i class="ri-add-circle-line"></i> New Block Rule</h2>
+                <form id="rule-form">
+                    <div class="input-group">
+                        <label>Target Type</label>
+                        <select id="target-type" onchange="toggleTargetType()">
+                            <option value="domain">Website / Domain</option>
+                            <option value="app">Application</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label id="target-label">Target Domain</label>
+                        <input type="text" id="target" placeholder="e.g., instagram.com" required autocomplete="off">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label>Rule Condition</label>
+                        <select id="rule-type" onchange="toggleTimeInputs()">
+                            <option value="always">Always Block</option>
+                            <option value="duration">Timer (Duration)</option>
+                            <option value="scheduled">Scheduled Window</option>
+                        </select>
+                    </div>
+
+                    <div id="duration-inputs" class="input-group hidden">
+                        <label>Duration (Minutes)</label>
+                        <input type="number" id="duration" placeholder="e.g., 30" min="1">
+                    </div>
+
+                    <div id="schedule-inputs" class="hidden time-row">
+                        <div class="input-group">
+                            <label>Start Time</label>
+                            <input type="time" id="start-time">
+                        </div>
+                        <div class="input-group">
+                            <label>End Time</label>
+                            <input type="time" id="end-time">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-primary">
+                        <i class="ri-shield-flash-line"></i> Deploy Rule
+                    </button>
+                    <div id="form-message" class="message"></div>
+                </form>
+            </section>
+
+            <section class="panel list-panel">
+                <h2><i class="ri-list-settings-line"></i> Active Rules</h2>
+                <div class="rules-container" id="rules-list">
+                    <!-- Rules dynamically inserted here -->
+                </div>
+            </section>
+
+            <section class="panel log-panel">
+                <h2><i class="ri-terminal-window-line"></i> Live Network Logs</h2>
+                <div class="terminal" id="logs-list">
+                    <!-- Logs dynamically inserted here -->
+                </div>
+            </section>
+        </div>
+        </section>
+
+        <section class="app-page" id="page-governance">
+        <button type="button" class="module-back" onclick="showPage('home')">
+            <i class="ri-arrow-left-line"></i> Modules
+        </button>
+        <section class="suite-grid">
+            <section class="panel suite-panel">
+                <h2><i class="ri-focus-3-line"></i> Focus Sessions</h2>
+                <div class="input-group">
+                    <label>Session Duration</label>
+                    <input type="number" id="focus-duration" min="1" value="30">
+                </div>
+                <button type="button" class="btn-secondary" onclick="startFocusSession()">Start Study Mode</button>
+                <div class="mini-output" id="focus-output">Blocks social, streaming, games, and messaging for the selected duration.</div>
+            </section>
+
+            <section class="panel suite-panel">
+                <h2><i class="ri-shield-user-line"></i> Profiles</h2>
+                <div class="input-group">
+                    <label>Access Profile</label>
+                    <select id="profile-select">
+                        <option value="student">Student</option>
+                        <option value="developer">Developer</option>
+                        <option value="parent">Parent Control</option>
+                        <option value="office">Office Mode</option>
+                    </select>
+                </div>
+                <button type="button" class="btn-secondary" onclick="applyProfile()">Apply Profile</button>
+                <div class="mini-output" id="profile-output">Prebuilt policy groups for different use cases.</div>
+            </section>
+
+            <section class="panel suite-panel">
+                <h2><i class="ri-store-2-line"></i> Policy Templates</h2>
+                <div class="input-group">
+                    <label>Template</label>
+                    <select id="template-select">
+                        <option value="exam">Exam Mode</option>
+                        <option value="deepwork">Deep Work Mode</option>
+                        <option value="childsafe">Child Safe Mode</option>
+                        <option value="digitaldetox">Digital Detox Mode</option>
+                    </select>
+                </div>
+                <button type="button" class="btn-secondary" onclick="applyTemplate()">Apply Template</button>
+                <div class="mini-output" id="template-output">Template marketplace for reusable policy packs.</div>
+            </section>
+
+            <section class="panel suite-panel">
+                <h2><i class="ri-apps-line"></i> App Categories</h2>
+                <div class="input-group">
+                    <label>Category</label>
+                    <select id="category-select">
+                        <option value="social">Social Media</option>
+                        <option value="streaming">Streaming</option>
+                        <option value="games">Games</option>
+                        <option value="messaging">Messaging</option>
+                    </select>
+                </div>
+                <button type="button" class="btn-secondary" onclick="applyCategory()">Block Category</button>
+                <div class="mini-output" id="category-output">Deploys multiple related website/app rules together.</div>
+            </section>
+
+            <section class="panel suite-panel">
+                <h2><i class="ri-git-branch-line"></i> Policy Builder</h2>
+                <div class="input-group">
+                    <label>Policy Target</label>
+                    <input type="text" id="policy-target" placeholder="e.g., reddit.com or discord">
+                </div>
+                <div class="time-row">
+                    <div class="input-group">
+                        <label>Target Type</label>
+                        <select id="policy-target-type">
+                            <option value="domain">Domain</option>
+                            <option value="app">Application</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Action</label>
+                        <select id="policy-action">
+                            <option value="block">Block</option>
+                            <option value="allow">Allow / Remove</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="button" class="btn-secondary" onclick="applyPolicy()">Apply Policy</button>
+                <div class="mini-output" id="policy-output">Policy-based access control layer over the rule engine.</div>
+                <div class="input-group">
+                    <label>Priority</label>
+                    <select id="policy-priority">
+                        <option value="1">Priority 1 - Critical</option>
+                        <option value="2">Priority 2 - High</option>
+                        <option value="3">Priority 3 - Normal</option>
+                    </select>
+                </div>
+            </section>
+
+            <section class="panel suite-panel">
+                <h2><i class="ri-lock-password-line"></i> Allowlist Mode</h2>
+                <div class="input-group">
+                    <label>Allowed Domains</label>
+                    <input type="text" id="allowlist-targets" placeholder="github.com, google.com, vit.ac.in">
+                </div>
+                <button type="button" class="btn-secondary" onclick="saveAllowlistMode()">Save Allowlist Policy</button>
+                <div class="mini-output" id="allowlist-output">Creates a strict-access policy plan for demo and audit tracking.</div>
+            </section>
+
+            <section class="panel suite-panel">
+                <h2><i class="ri-alarm-warning-line"></i> DoH Warning</h2>
+                <div class="warning-box">
+                    DNS-over-HTTPS can bypass normal DNS packet monitoring. Use this warning during the demo to explain future work for blocking known DoH resolvers.
+                </div>
+                <button type="button" class="btn-secondary" onclick="recordDohCheck()">Record DoH Check</button>
+            </section>
+
+            <section class="panel suite-panel wide-suite-panel">
+                <h2><i class="ri-key-2-line"></i> Emergency Unlock</h2>
+                <div class="input-group">
+                    <label>Reason</label>
+                    <input type="text" id="unlock-reason" placeholder="e.g., Need YouTube for a lecture">
+                </div>
+                <button type="button" class="btn-secondary" onclick="recordEmergencyUnlock()">Record Temporary Unlock Reason</button>
+                <div class="mini-output" id="unlock-output">Reason-based unlock tracking for accountability.</div>
+            </section>
+        </section>
+        </section>
+
+        <section class="app-page" id="page-intelligence">
+            <button type="button" class="module-back" onclick="showPage('home')">
+                <i class="ri-arrow-left-line"></i> Modules
+            </button>
+            <section class="suite-grid">
+                <section class="panel suite-panel">
+                    <h2><i class="ri-radar-line"></i> Adaptive Distraction Detection</h2>
+                    <div class="mini-output" id="recommendation-output">Recommendations will appear after logs and rules are analyzed.</div>
+                    <button type="button" class="btn-secondary" onclick="generateRecommendations()">Generate Recommendations</button>
+                </section>
+
+                <section class="panel suite-panel">
+                    <h2><i class="ri-speed-up-line"></i> Risk Scoring Engine</h2>
+                    <div class="risk-list" id="risk-list">No risk scores yet.</div>
+                    <button type="button" class="btn-secondary" onclick="renderRiskScores()">Refresh Scores</button>
+                </section>
+
+                <section class="panel suite-panel">
+                    <h2><i class="ri-time-line"></i> Context-Aware Rules</h2>
+                    <div class="input-group">
+                        <label>Context</label>
+                        <select id="context-select">
+                            <option value="class">Class Hours</option>
+                            <option value="coding">Coding Mode</option>
+                            <option value="exam">Exam Mode</option>
+                            <option value="night">Night Mode</option>
+                        </select>
+                    </div>
+                    <button type="button" class="btn-secondary" onclick="applyContextPolicy()">Apply Context</button>
+                    <div class="mini-output" id="context-output">Rules adapt according to the selected situation.</div>
+                </section>
+
+                <section class="panel suite-panel">
+                    <h2><i class="ri-alert-line"></i> Incident Mode</h2>
+                    <div class="incident-meter" id="incident-meter">Normal</div>
+                    <button type="button" class="btn-secondary" onclick="evaluateIncidentMode()">Evaluate Incident</button>
+                    <div class="mini-output" id="incident-output">High repeated blocked attempts can trigger a distraction incident.</div>
+                </section>
+            </section>
+        </section>
+
+        <section class="app-page" id="page-compliance">
+            <button type="button" class="module-back" onclick="showPage('home')">
+                <i class="ri-arrow-left-line"></i> Modules
+            </button>
+            <section class="suite-grid">
+                <section class="panel suite-panel">
+                    <h2><i class="ri-bar-chart-box-line"></i> Analytics</h2>
+                    <div class="analytics-grid" id="analytics-grid">
+                        <div><strong>0</strong><span>Active Rules</span></div>
+                        <div><strong>0</strong><span>Blocked Logs</span></div>
+                        <div><strong>0</strong><span>App Rules</span></div>
+                        <div><strong>0</strong><span>Domain Rules</span></div>
+                    </div>
+                </section>
+
+                <section class="panel suite-panel">
+                    <h2><i class="ri-list-check-3"></i> Admin Audit Logs</h2>
+                    <div class="audit-list" id="audit-list">No audit activity yet.</div>
+                </section>
+
+                <section class="panel suite-panel">
+                    <h2><i class="ri-file-transfer-line"></i> Import / Export</h2>
+                    <div class="button-row">
+                        <button type="button" class="btn-secondary" onclick="exportPolicyConfig()">Export</button>
+                        <button type="button" class="btn-secondary" onclick="importPolicyConfig()">Import</button>
+                    </div>
+                    <textarea id="policy-config" rows="5" placeholder="Exported JSON appears here. Paste JSON here before importing."></textarea>
+                </section>
+
+                <section class="panel suite-panel">
+                    <h2><i class="ri-history-line"></i> Policy Snapshots</h2>
+                    <div class="button-row">
+                        <button type="button" class="btn-secondary" onclick="saveSnapshot()">Save Snapshot</button>
+                        <button type="button" class="btn-secondary" onclick="restoreSnapshot()">Restore</button>
+                    </div>
+                    <div class="mini-output" id="snapshot-output">Save a rollback point before applying a new policy.</div>
+                </section>
+
+                <section class="panel suite-panel wide-suite-panel">
+                    <h2><i class="ri-file-chart-line"></i> Compliance Report</h2>
+                    <button type="button" class="btn-secondary" onclick="generateComplianceReport()">Generate Report</button>
+                    <textarea id="compliance-report" rows="8" placeholder="Generated compliance report appears here."></textarea>
+                </section>
+            </section>
+        </section>
+    </div>
+
+    <div class="modal-backdrop hidden" id="info-modal" aria-hidden="true">
+        <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+            <div class="modal-header">
+                <h2 id="modal-title"></h2>
+                <button type="button" class="modal-close" onclick="closeInfoModal()" aria-label="Close information panel">
+                    <i class="ri-close-line"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="modal-body"></div>
+        </div>
+    </div>
+
+    <div class="lock-screen hidden" id="lock-screen">
+        <form class="lock-card" onsubmit="unlockDashboard(event)">
+            <i class="ri-shield-keyhole-line"></i>
+            <h2>Aegis Locked</h2>
+            <p>Enter the dashboard PIN to manage rules and policies.</p>
+            <input type="password" id="lock-pin" placeholder="PIN" autocomplete="current-password">
+            <button type="submit" class="btn-primary">Unlock</button>
+            <div class="message" id="lock-message"></div>
+        </form>
+    </div>
+
+    <script>
+        const infoContent = {
+            video: {
+                title: 'Video: DNS and Network Blocking',
+                body: `
+                    <div class="video-frame">
+                        <iframe
+                            src="https://www.youtube.com/embed/BSplICgr7iU"
+                            title="How DNS works"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                    <p>This video explains DNS, the same networking concept Aegis uses before applying domain-based blocking rules.</p>
+                `
+            },
+            learn: {
+                title: 'Learn: Topic Used In This Project',
+                body: `
+                    <p>Aegis uses core computer-networking concepts to control traffic selectively instead of disconnecting the full internet.</p>
+                    <ul>
+                        <li><strong>DNS Resolution:</strong> Converts website names like youtube.com into IP addresses that computers can contact.</li>
+                        <li><strong>Packet Monitoring:</strong> Watches DNS traffic and checks whether a requested domain matches an active rule.</li>
+                        <li><strong>Firewall Filtering:</strong> Uses OS-level rules to block packets going to selected targets.</li>
+                        <li><strong>Rule Engine:</strong> Decides whether a target is always blocked, blocked for a duration, or blocked only during a schedule.</li>
+                        <li><strong>Application Control:</strong> Handles app rules by checking running processes and stopping selected applications.</li>
+                    </ul>
+                `
+            },
+            developers: {
+                title: 'Developed By',
+                body: `
+                    <div class="developer-list">
+                        <p><strong>1. K Nirmal Sesha Sai</strong><br>24BYB1083</p>
+                        <p><strong>2. K Lokesh Reddy</strong><br>24BYB1045</p>
+                        <p><strong>Faculty Advisor:</strong><br>Dr. Swaminathan Annadurai</p>
+                    </div>
+                `
+            },
+            guide: {
+                title: 'Guide: How To Use Aegis',
+                body: `
+                    <ol>
+                        <li>Select whether you want to block a Website / Domain or an Application.</li>
+                        <li>Enter the target, for example instagram.com for a website or firefox for an app.</li>
+                        <li>Choose the rule condition: Always Block, Timer, or Scheduled Window.</li>
+                        <li>Click Deploy Rule to activate the block.</li>
+                        <li>Check Active Rules to confirm the block is listed.</li>
+                        <li>Use the Allow button when you want to remove a rule.</li>
+                        <li>Watch Live Network Logs to see what the engine is doing.</li>
+                    </ol>
+                `
+            }
+        };
+
+        const policyGroups = {
+            profiles: {
+                student: [
+                    { target: 'youtube.com', target_type: 'domain' },
+                    { target: 'instagram.com', target_type: 'domain' },
+                    { target: 'reddit.com', target_type: 'domain' },
+                    { target: 'discord', target_type: 'app' }
+                ],
+                developer: [
+                    { target: 'instagram.com', target_type: 'domain' },
+                    { target: 'youtube.com', target_type: 'domain' },
+                    { target: 'steam', target_type: 'app' }
+                ],
+                parent: [
+                    { target: 'youtube.com', target_type: 'domain' },
+                    { target: 'instagram.com', target_type: 'domain' },
+                    { target: 'facebook.com', target_type: 'domain' },
+                    { target: 'discord', target_type: 'app' }
+                ],
+                office: [
+                    { target: 'instagram.com', target_type: 'domain' },
+                    { target: 'facebook.com', target_type: 'domain' },
+                    { target: 'reddit.com', target_type: 'domain' },
+                    { target: 'steam', target_type: 'app' }
+                ]
+            },
+            categories: {
+                social: [
+                    { target: 'instagram.com', target_type: 'domain' },
+                    { target: 'facebook.com', target_type: 'domain' },
+                    { target: 'reddit.com', target_type: 'domain' }
+                ],
+                streaming: [
+                    { target: 'youtube.com', target_type: 'domain' },
+                    { target: 'netflix.com', target_type: 'domain' },
+                    { target: 'primevideo.com', target_type: 'domain' }
+                ],
+                games: [
+                    { target: 'steam', target_type: 'app' },
+                    { target: 'epicgameslauncher', target_type: 'app' },
+                    { target: 'roblox', target_type: 'app' }
+                ],
+                messaging: [
+                    { target: 'discord', target_type: 'app' },
+                    { target: 'telegram', target_type: 'app' },
+                    { target: 'whatsapp', target_type: 'app' }
+                ]
+            },
+            templates: {
+                exam: [
+                    { target: 'youtube.com', target_type: 'domain' },
+                    { target: 'instagram.com', target_type: 'domain' },
+                    { target: 'reddit.com', target_type: 'domain' },
+                    { target: 'discord', target_type: 'app' },
+                    { target: 'steam', target_type: 'app' }
+                ],
+                deepwork: [
+                    { target: 'instagram.com', target_type: 'domain' },
+                    { target: 'reddit.com', target_type: 'domain' },
+                    { target: 'discord', target_type: 'app' }
+                ],
+                childsafe: [
+                    { target: 'youtube.com', target_type: 'domain' },
+                    { target: 'reddit.com', target_type: 'domain' },
+                    { target: 'discord', target_type: 'app' },
+                    { target: 'telegram', target_type: 'app' }
+                ],
+                digitaldetox: [
+                    { target: 'youtube.com', target_type: 'domain' },
+                    { target: 'instagram.com', target_type: 'domain' },
+                    { target: 'facebook.com', target_type: 'domain' },
+                    { target: 'netflix.com', target_type: 'domain' },
+                    { target: 'steam', target_type: 'app' }
+                ]
+            }
+        };
+
+        let dashboardUnlocked = false;
+        let currentRules = [];
+        let currentLogs = [];
+        let auditEvents = JSON.parse(localStorage.getItem('aegis-audit-events') || '[]');
+
+        function showPage(page) {
+            document.querySelectorAll('.app-page').forEach(section => {
+                section.classList.toggle('active', section.id === `page-${page}`);
+            });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function addAuditEvent(message) {
+            const entry = {
+                time: new Date().toLocaleTimeString(),
+                message
+            };
+            auditEvents.unshift(entry);
+            auditEvents = auditEvents.slice(0, 25);
+            localStorage.setItem('aegis-audit-events', JSON.stringify(auditEvents));
+            renderAuditEvents();
+        }
+
+        function renderAuditEvents() {
+            const auditList = document.getElementById('audit-list');
+            if (!auditList) return;
+            if (auditEvents.length === 0) {
+                auditList.textContent = 'No audit activity yet.';
+                return;
+            }
+            auditList.innerHTML = auditEvents.map(event => `
+                <div class="audit-entry">
+                    <span>${escapeHtml(event.time)}</span>
+                    <p>${escapeHtml(event.message)}</p>
+                </div>
+            `).join('');
+        }
+
+        function updateAnalytics() {
+            const analyticsGrid = document.getElementById('analytics-grid');
+            if (!analyticsGrid) return;
+            const blockedLogs = currentLogs.filter(log => (log.message || '').toLowerCase().includes('blocked')).length;
+            const appRules = currentRules.filter(rule => rule.target_type === 'app').length;
+            const domainRules = currentRules.filter(rule => (rule.target_type || 'domain') === 'domain').length;
+            const unlocks = auditEvents.filter(event => event.message.toLowerCase().includes('unlock')).length;
+            analyticsGrid.innerHTML = `
+                <div><strong>${currentRules.length}</strong><span>Active Rules</span></div>
+                <div><strong>${blockedLogs}</strong><span>Blocked Logs</span></div>
+                <div><strong>${appRules}</strong><span>App Rules</span></div>
+                <div><strong>${domainRules}</strong><span>Domain Rules</span></div>
+                <div><strong>${unlocks}</strong><span>Unlock Events</span></div>
+                <div><strong>${calculateFocusScore()}</strong><span>Focus Score</span></div>
+            `;
+        }
+
+        function calculateFocusScore() {
+            const blockedLogs = currentLogs.filter(log => (log.message || '').toLowerCase().includes('blocked')).length;
+            const unlocks = auditEvents.filter(event => event.message.toLowerCase().includes('emergency unlock')).length;
+            return Math.max(0, Math.min(100, 100 - (unlocks * 8) - Math.max(0, blockedLogs - 5)));
+        }
+
+        function showLockScreen(show) {
+            const lockScreen = document.getElementById('lock-screen');
+            lockScreen.classList.toggle('hidden', !show);
+        }
+
+        async function checkAuth() {
+            try {
+                const res = await fetch('/api/auth/status');
+                const data = await res.json();
+                dashboardUnlocked = Boolean(data.unlocked);
+                showLockScreen(!dashboardUnlocked);
+                if (dashboardUnlocked) {
+                    showPage('home');
+                    fetchStatus();
+                    fetchRules();
+                    fetchLogs();
+                }
+            } catch (error) {
+                dashboardUnlocked = false;
+                showLockScreen(true);
+            }
+        }
+
+        async function unlockDashboard(event) {
+            event.preventDefault();
+            const pin = document.getElementById('lock-pin').value;
+            const message = document.getElementById('lock-message');
+            const res = await fetch('/api/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ pin })
+            });
+            const data = await res.json();
+            message.textContent = data.message;
+            message.className = res.ok ? 'message success' : 'message error';
+            if (res.ok) {
+                dashboardUnlocked = true;
+                document.getElementById('lock-pin').value = '';
+                showLockScreen(false);
+                showPage('home');
+                addAuditEvent('Dashboard unlocked by PIN.');
+                fetchStatus();
+                fetchRules();
+                fetchLogs();
+            }
+        }
+
+        async function lockDashboard() {
+            await fetch('/api/auth/logout', { method: 'POST' });
+            dashboardUnlocked = false;
+            addAuditEvent('Dashboard locked manually.');
+            showLockScreen(true);
+        }
+
+        async function deployRule(target, targetType = 'domain', ruleType = 'always', duration = '') {
+            const res = await fetch('/api/rules', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    target,
+                    target_type: targetType,
+                    type: ruleType,
+                    duration_minutes: duration
+                })
+            });
+            const data = await res.json();
+            if (res.ok) addAuditEvent(`Policy deployed: ${targetType} ${target} (${ruleType}).`);
+            return { ok: res.ok, data };
+        }
+
+        async function deployGroup(items, ruleType = 'always', duration = '') {
+            const results = [];
+            for (const item of items) {
+                results.push(await deployRule(item.target, item.target_type, ruleType, duration));
+            }
+            fetchRules();
+            return results;
+        }
+
+        async function startFocusSession() {
+            const duration = document.getElementById('focus-duration').value || '30';
+            const targets = [
+                ...policyGroups.categories.social,
+                ...policyGroups.categories.streaming,
+                ...policyGroups.categories.games,
+                ...policyGroups.categories.messaging
+            ];
+            const results = await deployGroup(targets, 'duration', duration);
+            document.getElementById('focus-output').textContent = `Focus session started for ${duration} minutes. ${results.filter(r => r.ok).length} rules deployed.`;
+            addAuditEvent(`Focus session started for ${duration} minutes.`);
+        }
+
+        async function applyProfile() {
+            const profile = document.getElementById('profile-select').value;
+            const results = await deployGroup(policyGroups.profiles[profile] || []);
+            document.getElementById('profile-output').textContent = `${profile} profile applied. ${results.filter(r => r.ok).length} rules deployed.`;
+        }
+
+        async function applyTemplate() {
+            const template = document.getElementById('template-select').value;
+            const results = await deployGroup(policyGroups.templates[template] || []);
+            document.getElementById('template-output').textContent = `${template} template applied. ${results.filter(r => r.ok).length} rules deployed.`;
+            addAuditEvent(`Policy template applied: ${template}.`);
+        }
+
+        async function applyCategory() {
+            const category = document.getElementById('category-select').value;
+            const results = await deployGroup(policyGroups.categories[category] || []);
+            document.getElementById('category-output').textContent = `${category} category applied. ${results.filter(r => r.ok).length} rules deployed.`;
+        }
+
+        async function applyPolicy() {
+            const target = document.getElementById('policy-target').value.trim();
+            const targetType = document.getElementById('policy-target-type').value;
+            const action = document.getElementById('policy-action').value;
+            const priority = document.getElementById('policy-priority').value;
+            const output = document.getElementById('policy-output');
+
+            if (!target) {
+                output.textContent = 'Enter a policy target first.';
+                return;
+            }
+
+            if (action === 'allow') {
+                const rule = currentRules.find(item => item.target === target && (item.target_type || 'domain') === targetType);
+                if (!rule) {
+                    output.textContent = 'No active rule found for that target.';
+                    return;
+                }
+                await removeRule(rule.id);
+                output.textContent = `Allow policy applied for ${target}.`;
+                addAuditEvent(`Priority ${priority} allow policy removed ${targetType} ${target}.`);
+                return;
+            }
+
+            const result = await deployRule(target, targetType);
+            output.textContent = `Priority ${priority}: ${result.data.message}`;
+            addAuditEvent(`Priority ${priority} policy evaluated for ${targetType} ${target}.`);
+            fetchRules();
+        }
+
+        function exportPolicyConfig() {
+            const config = {
+                exported_at: new Date().toISOString(),
+                rules: currentRules.map(rule => ({
+                    target: rule.target,
+                    target_type: rule.target_type || 'domain',
+                    type: rule.type,
+                    schedule_start: rule.schedule_start,
+                    schedule_end: rule.schedule_end
+                })),
+                allowlist: localStorage.getItem('aegis-allowlist') || '',
+                audit_events: auditEvents
+            };
+            document.getElementById('policy-config').value = JSON.stringify(config, null, 2);
+            addAuditEvent('Policy configuration exported.');
+        }
+
+        async function importPolicyConfig() {
+            const output = document.getElementById('policy-config');
+            try {
+                const config = JSON.parse(output.value || '{}');
+                const rules = Array.isArray(config.rules) ? config.rules : [];
+                const results = await deployGroup(rules.map(rule => ({
+                    target: rule.target,
+                    target_type: rule.target_type || 'domain'
+                })));
+                if (config.allowlist) localStorage.setItem('aegis-allowlist', config.allowlist);
+                addAuditEvent(`Policy configuration imported with ${results.filter(r => r.ok).length} deployed rules.`);
+                fetchRules();
+            } catch (error) {
+                addAuditEvent('Policy import failed because the JSON was invalid.');
+            }
+        }
+
+        function saveAllowlistMode() {
+            const allowlist = document.getElementById('allowlist-targets').value.trim();
+            localStorage.setItem('aegis-allowlist', allowlist);
+            document.getElementById('allowlist-output').textContent = allowlist
+                ? `Allowlist policy saved for: ${allowlist}`
+                : 'Allowlist policy cleared.';
+            addAuditEvent('Allowlist mode policy saved for demo tracking.');
+        }
+
+        function recordDohCheck() {
+            addAuditEvent('DoH bypass warning reviewed. Future work: block known encrypted DNS resolvers.');
+        }
+
+        function recordEmergencyUnlock() {
+            const reason = document.getElementById('unlock-reason').value.trim() || 'No reason entered';
+            document.getElementById('unlock-output').textContent = `Unlock reason recorded: ${reason}`;
+            addAuditEvent(`Emergency unlock reason recorded: ${reason}`);
+            document.getElementById('unlock-reason').value = '';
+        }
+
+        function targetScore(target, targetType = 'domain') {
+            const name = String(target || '').toLowerCase();
+            let score = targetType === 'app' ? 45 : 35;
+            if (/(instagram|facebook|reddit|discord|steam|roblox|netflix|primevideo)/.test(name)) score += 35;
+            if (/(youtube|youtu|googlevideo)/.test(name)) score += 28;
+            if (currentRules.some(rule => String(rule.target).toLowerCase() === name)) score += 15;
+            score += Math.min(15, currentLogs.filter(log => String(log.message).toLowerCase().includes(name)).length * 3);
+            return Math.max(0, Math.min(100, score));
+        }
+
+        function renderRiskScores() {
+            const riskList = document.getElementById('risk-list');
+            const knownTargets = new Map();
+            currentRules.forEach(rule => knownTargets.set(rule.target, rule.target_type || 'domain'));
+            Object.values(policyGroups.categories).flat().forEach(item => {
+                if (!knownTargets.has(item.target)) knownTargets.set(item.target, item.target_type);
+            });
+            const rows = [...knownTargets.entries()]
+                .map(([target, targetType]) => ({ target, targetType, score: targetScore(target, targetType) }))
+                .sort((a, b) => b.score - a.score)
+                .slice(0, 10);
+
+            riskList.innerHTML = rows.map(row => `
+                <div class="risk-row">
+                    <span>${escapeHtml(row.target)}</span>
+                    <strong>${row.score}/100</strong>
+                </div>
+            `).join('') || 'No risk scores yet.';
+            addAuditEvent('Risk scoring engine refreshed.');
+        }
+
+        function generateRecommendations() {
+            const activeTargets = new Set(currentRules.map(rule => rule.target));
+            const candidates = Object.values(policyGroups.categories)
+                .flat()
+                .filter(item => !activeTargets.has(item.target))
+                .map(item => ({ ...item, score: targetScore(item.target, item.target_type) }))
+                .sort((a, b) => b.score - a.score)
+                .slice(0, 4);
+            const output = document.getElementById('recommendation-output');
+            output.innerHTML = candidates.length
+                ? candidates.map(item => `<div class="recommendation-row">${escapeHtml(item.target)} scored ${item.score}/100. Recommended for Focus Policy.</div>`).join('')
+                : 'No new recommendations. Existing high-risk targets are already covered.';
+            addAuditEvent('Adaptive recommendation scan completed.');
+        }
+
+        async function applyContextPolicy() {
+            const context = document.getElementById('context-select').value;
+            const contextRules = {
+                class: [...policyGroups.categories.social, ...policyGroups.categories.streaming],
+                coding: [...policyGroups.categories.social, ...policyGroups.categories.games],
+                exam: [
+                    ...policyGroups.categories.social,
+                    ...policyGroups.categories.streaming,
+                    ...policyGroups.categories.messaging,
+                    ...policyGroups.categories.games
+                ],
+                night: [...policyGroups.categories.streaming, ...policyGroups.categories.games, ...policyGroups.categories.messaging]
+            };
+            const results = await deployGroup(contextRules[context] || []);
+            document.getElementById('context-output').textContent = `${context} context applied with ${results.filter(r => r.ok).length} active policy rules.`;
+            addAuditEvent(`Context-aware policy applied: ${context}.`);
+        }
+
+        function evaluateIncidentMode() {
+            const blockedLogs = currentLogs.filter(log => (log.message || '').toLowerCase().includes('blocked')).length;
+            const recentAudit = auditEvents.filter(event => /unlock|failed|removed/i.test(event.message)).length;
+            const score = Math.min(100, blockedLogs * 8 + recentAudit * 5);
+            const meter = document.getElementById('incident-meter');
+            const output = document.getElementById('incident-output');
+            const level = score >= 70 ? 'High Distraction Incident' : score >= 35 ? 'Elevated' : 'Normal';
+            meter.textContent = `${level} - ${score}/100`;
+            meter.className = `incident-meter ${score >= 70 ? 'high' : score >= 35 ? 'medium' : 'low'}`;
+            output.textContent = score >= 70
+                ? 'Incident mode recommends keeping the dashboard locked and requiring a reason for every unlock.'
+                : 'No major incident escalation is required right now.';
+            addAuditEvent(`Incident mode evaluated: ${level}.`);
+        }
+
+        function saveSnapshot() {
+            const snapshot = {
+                saved_at: new Date().toISOString(),
+                rules: currentRules.map(rule => ({
+                    target: rule.target,
+                    target_type: rule.target_type || 'domain',
+                    type: rule.type
+                }))
+            };
+            localStorage.setItem('aegis-policy-snapshot', JSON.stringify(snapshot));
+            document.getElementById('snapshot-output').textContent = `Snapshot saved with ${snapshot.rules.length} rules.`;
+            addAuditEvent('Policy snapshot saved.');
+        }
+
+        async function restoreSnapshot() {
+            const snapshot = JSON.parse(localStorage.getItem('aegis-policy-snapshot') || '{"rules":[]}');
+            const results = await deployGroup(snapshot.rules || []);
+            document.getElementById('snapshot-output').textContent = `Snapshot restored. ${results.filter(r => r.ok).length} rules deployed.`;
+            addAuditEvent('Policy snapshot restore requested.');
+        }
+
+        function generateComplianceReport() {
+            const report = [
+                'AEGIS Compliance Report',
+                `Generated: ${new Date().toLocaleString()}`,
+                `Active rules: ${currentRules.length}`,
+                `Domain rules: ${currentRules.filter(rule => (rule.target_type || 'domain') === 'domain').length}`,
+                `Application rules: ${currentRules.filter(rule => rule.target_type === 'app').length}`,
+                `Blocked log entries: ${currentLogs.filter(log => (log.message || '').toLowerCase().includes('blocked')).length}`,
+                `Focus score: ${calculateFocusScore()}/100`,
+                `Emergency unlock records: ${auditEvents.filter(event => event.message.toLowerCase().includes('emergency unlock')).length}`,
+                '',
+                'Active Targets:',
+                ...currentRules.map(rule => `- ${rule.target_type || 'domain'}: ${rule.target} (${rule.type})`),
+                '',
+                'Recent Audit Trail:',
+                ...auditEvents.slice(0, 10).map(event => `- [${event.time}] ${event.message}`)
+            ].join('\n');
+            document.getElementById('compliance-report').value = report;
+            addAuditEvent('Compliance report generated.');
+        }
+
+        function openInfoModal(type) {
+            const modal = document.getElementById('info-modal');
+            const title = document.getElementById('modal-title');
+            const body = document.getElementById('modal-body');
+            const content = infoContent[type];
+
+            if (!content) return;
+
+            title.textContent = content.title;
+            body.innerHTML = content.body;
+            modal.classList.remove('hidden');
+            modal.setAttribute('aria-hidden', 'false');
+        }
+
+        function closeInfoModal() {
+            const modal = document.getElementById('info-modal');
+            modal.classList.add('hidden');
+            modal.setAttribute('aria-hidden', 'true');
+        }
+
+        function setTheme(mode) {
+            const isLight = mode === 'light';
+            const button = document.getElementById('theme-toggle');
+
+            document.body.classList.toggle('light-theme', isLight);
+            button.innerHTML = isLight
+                ? '<i class="ri-moon-line"></i> Dark'
+                : '<i class="ri-sun-line"></i> Light';
+            localStorage.setItem('aegis-theme', mode);
+        }
+
+        function toggleTheme() {
+            const nextTheme = document.body.classList.contains('light-theme') ? 'dark' : 'light';
+            setTheme(nextTheme);
+        }
+
+        document.getElementById('info-modal').addEventListener('click', (event) => {
+            if (event.target.id === 'info-modal') closeInfoModal();
+        });
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') closeInfoModal();
+        });
+
+        function escapeHtml(value) {
+            return String(value ?? '').replace(/[&<>"']/g, (char) => ({
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#39;'
+            }[char]));
+        }
+
+        function toggleTimeInputs() {
+            const type = document.getElementById('rule-type').value;
+            const dirInputs = document.getElementById('duration-inputs');
+            const schInputs = document.getElementById('schedule-inputs');
+            
+            dirInputs.classList.add('hidden');
+            schInputs.classList.add('hidden');
+
+            if (type === 'duration') dirInputs.classList.remove('hidden');
+            if (type === 'scheduled') schInputs.classList.remove('hidden');
+        }
+
+        function toggleTargetType() {
+            const targetType = document.getElementById('target-type').value;
+            const label = document.getElementById('target-label');
+            const target = document.getElementById('target');
+
+            if (targetType === 'app') {
+                label.textContent = 'Application Process';
+                target.placeholder = 'e.g., firefox, discord, steam';
+            } else {
+                label.textContent = 'Target Domain';
+                target.placeholder = 'e.g., instagram.com';
+            }
+        }
+
+        document.getElementById('rule-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!dashboardUnlocked) {
+                showLockScreen(true);
+                return;
+            }
+            const btn = e.target.querySelector('button');
+            const msg = document.getElementById('form-message');
+            
+            const targetType = document.getElementById('target-type').value;
+            const target = document.getElementById('target').value;
+            const type = document.getElementById('rule-type').value;
+            const duration = document.getElementById('duration').value;
+            const start = document.getElementById('start-time').value;
+            const end = document.getElementById('end-time').value;
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="ri-loader-4-line spin"></i> Deploying...';
+
+            try {
+                const res = await fetch('/api/rules', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        target,
+                        target_type: targetType,
+                        type,
+                        duration_minutes: duration,
+                        schedule_start: start,
+                        schedule_end: end
+                    })
+                });
+
+                const data = await res.json();
+                msg.textContent = data.message;
+                msg.className = data.success ? 'message success' : 'message error';
+                
+                if (data.success) {
+                    document.getElementById('target').value = '';
+                    addAuditEvent(`Manual rule deployed: ${targetType} ${target} (${type}).`);
+                    fetchRules();
+                }
+            } catch (error) {
+                msg.textContent = 'Failed to connect to server';
+                msg.className = 'message error';
+            }
+
+            setTimeout(() => { msg.textContent = ''; msg.className='message'; }, 3000);
+            btn.disabled = false;
+            btn.innerHTML = '<i class="ri-shield-flash-line"></i> Deploy Rule';
+        });
+
+        async function fetchRules() {
+            if (!dashboardUnlocked) return;
+            try {
+                const res = await fetch('/api/rules');
+                if (res.status === 401) {
+                    dashboardUnlocked = false;
+                    showLockScreen(true);
+                    return;
+                }
+                const rules = await res.json();
+                currentRules = rules;
+                const container = document.getElementById('rules-list');
+                
+                if (rules.length === 0) {
+                    container.innerHTML = '<div class="empty-state">No active blocks</div>';
+                    updateAnalytics();
+                    return;
+                }
+
+                container.innerHTML = rules.map(r => `
+                    <div class="rule-card">
+                        <div class="rule-info">
+                            <h3>${escapeHtml(r.target || r.domain || r.app_name)}</h3>
+                            <div class="badges">
+                                <span class="badge ${r.target_type || 'domain'}">${(r.target_type || 'domain').toUpperCase()}</span>
+                                <span class="badge ${r.type}">${r.type.toUpperCase()}</span>
+                                <span class="badge ${r.active ? 'active' : 'waiting'}">${r.active ? 'ACTIVE' : 'WAITING'}</span>
+                            </div>
+                        </div>
+                        <div class="rule-meta">
+                            ${r.type === 'duration' ? 
+                                `Expires: ${new Date(r.expires_at * 1000).toLocaleTimeString()}` : ''}
+                            ${r.type === 'scheduled' ? 
+                                `Window: ${r.schedule_start} - ${r.schedule_end}` : ''}
+                        </div>
+                        <button class="btn-danger" onclick="removeRule(${r.id})">
+                            <i class="ri-delete-bin-line"></i> Allow
+                        </button>
+                    </div>
+                `).join('');
+                updateAnalytics();
+            } catch (e) {
+                console.error("Rule fetch error:", e);
+            }
+        }
+
+        async function removeRule(id) {
+            if (!dashboardUnlocked) {
+                showLockScreen(true);
+                return;
+            }
+            await fetch(`/api/rules/${id}`, { method: 'DELETE' });
+            addAuditEvent(`Rule ${id} removed from dashboard.`);
+            fetchRules();
+        }
+
+        async function fetchStatus() {
+            if (!dashboardUnlocked) return;
+            try {
+                const res = await fetch('/api/status');
+                if (res.status === 401) {
+                    dashboardUnlocked = false;
+                    showLockScreen(true);
+                    return;
+                }
+                const status = await res.json();
+                const container = document.getElementById('status-bar');
+                const privilege = status.is_admin ? 'Privileged mode' : 'Needs sudo for OS blocking';
+                const firewall = status.firewall === 'none' ? 'no firewall backend' : `${status.firewall} available`;
+                const dns = status.dns_sinkhole === 'none' ? 'DNS sinkhole unavailable' : `${status.dns_sinkhole} sinkhole ready`;
+                const resolver = status.dns_resolver_local ? 'local resolver' : 'external resolver';
+                const sniffer = status.sniffer_available ? 'DNS capture ready' : 'DNS capture unavailable';
+                const appControl = status.app_control_available ? 'app control ready' : 'app control unavailable';
+                container.textContent = `${privilege} | ${dns} | ${resolver} | ${firewall} | ${sniffer} | ${appControl}`;
+                container.className = status.is_admin ? 'status-bar ok' : 'status-bar warn';
+            } catch (e) {
+                console.error("Status fetch error:", e);
+            }
+        }
+
+        async function fetchLogs() {
+            if (!dashboardUnlocked) return;
+            try {
+                const res = await fetch('/api/logs');
+                if (res.status === 401) {
+                    dashboardUnlocked = false;
+                    showLockScreen(true);
+                    return;
+                }
+                const logs = await res.json();
+                currentLogs = logs;
+                const container = document.getElementById('logs-list');
+                container.innerHTML = logs.map(l => `
+                    <div class="log-line">
+                        <span class="time">[${escapeHtml(l.time)}]</span> 
+                        <span class="${l.message.includes('Blocked') ? 'text-red' : 'text-green'}">${escapeHtml(l.message)}</span>
+                    </div>
+                `).join('');
+                updateAnalytics();
+            } catch (e) {
+                console.error("Log fetch error:", e);
+            }
+        }
+
+        // Init loops
+        setTheme(localStorage.getItem('aegis-theme') || 'dark');
+        renderAuditEvents();
+        toggleTargetType();
+        checkAuth();
+        setInterval(fetchStatus, 5000);
+        setInterval(fetchRules, 5000);
+        setInterval(fetchLogs, 1000); // Fast log polling for Demo effect
+    </script>
+</body>
+</html>
