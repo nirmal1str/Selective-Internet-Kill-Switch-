@@ -80,5 +80,3 @@ This completely halts connection attempts to blocked domains across *all* applic
 ## License
 This project is submitted for academic purposes. Ownership is assigned to the instructor, while implementation credits remain with the authors.
 ``` 
-
-Let me know if you would like any further changes or tweaks to this markdown!
