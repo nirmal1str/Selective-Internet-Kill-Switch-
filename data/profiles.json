@@ -1,0 +1,11 @@
+{
+  "profiles": [
+    {
+      "id": "nirmal",
+      "name": "Nirmal",
+      "salt": "3a570c4cc607079542a6180e1e139591",
+      "password_hash": "f3750e85f116b4b37e2c86388a538aa181232ca1112c7ce829c41c63abc90499",
+      "created_at": 1777552166
+    }
+  ]
+}
